@@ -63,10 +63,22 @@ public class EmployeeDAO {
         return empList;
     }
     public static boolean updateEmp(EmployeesPojo emp) throws SQLException{
+        Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement("Update employees set ename=?,sal=?,deptno=? where empno=?");
+        ps.setString(1,emp.getEmpName());
+        ps.setDouble(2,emp.getEmpSal());
+        ps.setInt(3,emp.getDeptno());
+        ps.setInt(4,emp.getEmpNo());
         
+        int ans = ps.executeUpdate();
+        return ans==1;
     }
-    public static boolean deleteEmp(int  empNo)throws SQLException{
-        
+    public static boolean deleteEmp(int empNo)throws SQLException{
+        Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement("Delete from Employees where empno=?");
+        ps.setInt(1,empNo);
+        int ans = ps.executeUpdate();
+        return ans==1;
     }
     
 }
